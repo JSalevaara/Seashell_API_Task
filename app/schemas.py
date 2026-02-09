@@ -20,3 +20,4 @@ class SeashellResponse(SeashellCreate):
 
 class Message(BaseModel):
     message: str
+    seashell: Optional[SeashellResponse] = None
