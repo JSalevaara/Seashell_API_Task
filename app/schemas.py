@@ -17,3 +17,6 @@ class SeashellResponse(SeashellCreate):
     class Config:
         from_attributes = True
 
+class Message(BaseModel):
+    message: str
+    
