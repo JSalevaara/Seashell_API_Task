@@ -11,7 +11,7 @@ Docker and Docker compose installed on your machine.
 
 ### Installation & setup
 
-```Bash
+```bash
 git clone https://github.com/JSalevaara/Seashell_API_Task.git
 cd Seashell_API_Task.git
 ```
