@@ -28,6 +28,9 @@ def create_seashell(shell: schemas.SeashellCreate, db: Session = Depends(get_db)
         shell (schemas.SeashellCreate): The seashell data (name and species are required).
         db (Session): The database session dependency.
 
+    Raises:
+        HTTPException: 500 error if seashell couldn't be saved to the database.
+
     Returns:
         Message: A confirmation message and the newly created seashell object.
     """
@@ -46,7 +49,7 @@ def create_seashell(shell: schemas.SeashellCreate, db: Session = Depends(get_db)
 @app.get("/seashells", response_model=List[schemas.SeashellResponse])
 def get_all_seashells(db: Session = Depends(get_db)):
     """
-    Function to fetch and list all seashells in the database.
+    Fetch and list all seashells in the database.
     
     Args:
         db (Session): The database session.
@@ -55,7 +58,7 @@ def get_all_seashells(db: Session = Depends(get_db)):
         HTTPException: 404 error if no seashells are found.
     
     Returns:
-        A list of all Seashells in the database.
+        List[SeashellResponse]: A list of all Seashells in the database.
     """
     # Query the database for all the shells in the database.
     shells = db.query(models.Seashell).all()
@@ -68,11 +71,14 @@ def get_all_seashells(db: Session = Depends(get_db)):
 @app.delete("/seashells/{shell_id}", response_model=schemas.Message)
 def remove_seashell(shell_id: int, db: Session = Depends(get_db)):
     """
-    Function to remove a single seashell from the database based on it's ID.
+    Remove an existing seashell from the database by it's ID.
     
     Args:
         shell_id (int): The ID of the seashell to remove.
         db (Session): The database session.
+
+    Raises:
+        HTTPException: 404 error if no seashell is found.
 
     Returns:
         Message: A success message confirming deletion.
@@ -93,15 +99,18 @@ def remove_seashell(shell_id: int, db: Session = Depends(get_db)):
 @app.put("/seashells/{shell_id}", response_model=schemas.SeashellResponse)
 def edit_seashell(shell_id: int, shell_update: schemas.SeashellUpdate, db: Session = Depends(get_db)):
     """
-    Function to edit a seashell in the database by its ID.
+    Updates an existing seashell's information by its ID.
     
     Args:
         shell_id (int): The ID of the seashell to edit.
         shell_update (schemas.SeashellUpdate): The fields to update (all are optional).
         db (Session): The database session.
 
+    Raises:
+        HTTPException: 404 error if no seashell is found with the given ID.
+        HTTPException: 500 error if editing fails.
     Returns:
-        Message: A success message confirming successful editing and the updated seashell object.
+        SeashellResponse: The updated seashell object.
     """
     # Fetch the corresponding shell by its ID from the database.
     db_shell = db.query(models.Seashell).filter(models.Seashell.id == shell_id).first()
@@ -116,7 +125,6 @@ def edit_seashell(shell_id: int, shell_update: schemas.SeashellUpdate, db: Sessi
     # 
     for key, value in update_data.items(): 
         setattr(db_shell, key, value)
-    # ERROR SHELL WITH ID NOT FOUND!
     try:
         # Commit the changes to PostgreSQL
         db.commit()
