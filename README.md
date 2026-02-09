@@ -43,3 +43,47 @@ _Just make sure the file contains DB_USER, DB_PASSWORD, DB_NAME, DATABASE_URL wh
 ```bash
 docker-compose up --build
 ```
+
+_The API will be available at `localhost:8000` and the database will persist data using Docker volumes._
+
+## API Documentation
+
+FastAPI automatically generates interactive documentation. Once the server is running, you can explore and test the endpoints directly:
+
+**Swagger UI:** `http://localhost:8000/docs` \
+**ReDoc:** `http://localhost:8000/redoc`
+
+#### Endpoints
+
+| Method     | Endpoint        | Description                                    |
+| :--------- | :-------------- | :--------------------------------------------- |
+| **GET**    | /seashells      | List all seashelss in the database             |
+| **POST**   | /seashells      | Add a new seashell (name and species required) |
+| **PUT**    | /seashells/{id} | Update an existing seashell's details by ID.   |
+| **DELETE** | /seashells/{id} | Remove a seashell from the treasury.           |
+
+#### Example: Create a seashell
+
+Request body (POST /seashells)
+
+```json
+{
+    "name": "Giant shell",
+    "species": "Special Shell",
+    "description": "Large unique shell with green lines going through it.",
+    "origin": "Indian Ocean",
+    "color": "Pink/Green"
+}
+```
+
+## Tech Stack
+
+- **Framework:** FastAPI, for high-performance
+- **Database:** Postgresql 13, for reliability
+- **ORM:** SQLAlchemy 2.0, for handling SQL data with Python classes
+- **Validation:** Pydantic 2.12, for type enforcement and data integrity
+- **Containerization:** Docker, for a consistent environment
+
+## Project structure
+
+## Advanced features
