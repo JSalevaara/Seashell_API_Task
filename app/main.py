@@ -9,7 +9,11 @@ from . import database, models, schemas
 models.Base.metadata.create_all(bind=database.engine)
 
 # Create the FastAPI application.
-app = FastAPI()
+app = FastAPI(
+    title="Seashell API",
+    description="A specialized backend to track seashells",
+    version="1.0.0",
+)
 
 # Creates a connection for each request and closes it after.
 def get_db():
