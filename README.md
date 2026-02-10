@@ -7,44 +7,70 @@ It was designed to catalog seashells. It provides a robust, containerized soluti
 
 ### Prerequisites
 
-Docker and Docker compose installed on your machine.
+- For Docker: Docker and Docker compose installed.
+- For Local: Python 3.12+ and a running PostgreSQL instance.
 
-### Installation & setup
+## Installation and Setup with Docker (Recommended)
 
-### 1. Clone the repository
+This is the simplest and easiest way to use this API since it handles database and environment setup automatically.
 
-```python
+### 1. Clone the repository:
+
+```bash
 git clone https://github.com/JSalevaara/Seashell_API_Task.git
 cd Seashell_API_Task
 ```
 
-### (Optional when running with Docker) Configure environment variables
-
-Create a file called .env to the root of the project.
-
-```bash
-touch .env
-```
-
-Paste the following content to the .env file or choose your own. \
-
-```
-DB_USER=testuser
-DB_PASSWORD=testpassword
-DB_NAME=seashelldb
-DATABASE_URL=postgresql://${DB_USER:-user}:${DB_PASSWORD:-password}@localhost:5432/${DB_NAME:-seashell_db}
-```
-
-_You can choose DB_USER, DB_PASSWORD, DB_NAME freely._ \
-_Just make sure the file contains DB_USER, DB_PASSWORD, DB_NAME, DATABASE_URL when running the API without Docker._
-
-### 2. Start the environment
+### 2. Start the environment:
 
 ```bash
 docker-compose up --build
 ```
 
 _The API will be available at `localhost:8000` and the database will persist data using Docker volumes._
+
+## Installation and Setup locally
+
+Use this setup if you want to run the application directly on your host machine.
+
+### 1. Clone the repository:
+
+```bash
+git clone https://github.com/JSalevaara/Seashell_API_Task.git
+cd Seashell_API_Task
+```
+
+### 2. Create and activate a virtual environment
+
+```bash
+python -m venv .venv
+# Windows:
+.venv\Scripts\activate
+# macOS/Linux:
+source .venv/bin/activate
+```
+
+### 3. Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Configure the environment
+
+Create a .env file in the project root and provide your local PostgreSQL connection details.
+
+```plaintext
+DATABASE_URL=postgresql://user:password@localhost:5432/seashell_db
+```
+
+_Make sure the .env file contains DATABASE_URL which points to the local PostgreSQL instance._
+
+### 5. Start the API.
+
+```bash
+uvicorn app.main:app
+```
 
 ## API Documentation
 
@@ -55,12 +81,12 @@ FastAPI automatically generates interactive documentation. Once the server is ru
 
 #### Endpoints
 
-| Method     | Endpoint        | Description                                    |
-| :--------- | :-------------- | :--------------------------------------------- |
-| **GET**    | /seashells      | List all seashelss in the database             |
-| **POST**   | /seashells      | Add a new seashell (name and species required) |
-| **PUT**    | /seashells/{id} | Update an existing seashell's details by ID.   |
-| **DELETE** | /seashells/{id} | Remove a seashell from the treasury.           |
+| Method     | Endpoint        | Description                                                                          |
+| :--------- | :-------------- | :----------------------------------------------------------------------------------- |
+| **GET**    | /seashells      | List all seashells in the database                                                   |
+| **POST**   | /seashells      | Add a new seashell (name and species required)                                       |
+| **PUT**    | /seashells/{id} | Update an entry by ID. Supports partial updates (only provided fields are modified). |
+| **DELETE** | /seashells/{id} | Remove a seashell from the database by ID.                                           |
 
 #### Example: Create a seashell
 
@@ -76,6 +102,13 @@ Request body (POST /seashells)
 }
 ```
 
+## Features
+
+- CRUD Operations: Full support for creating, reading, updating and deleting seashell entries.
+- Data Persistence: Persistent storage using a PostgreSQL database.
+- Partial Updates: Supports only modifying provided fields.
+- Automatic Documentation: Provides interactive Swagger and ReDoc documentation automatically through FastAPI.
+
 ## Tech Stack
 
 - **Framework:** FastAPI, for high-performance
@@ -86,4 +119,16 @@ Request body (POST /seashells)
 
 ## Project structure
 
-## Advanced features
+```plaintext
+.
+├── app/
+│   ├── __init__.py
+│   ├── database.py
+│   ├── main.py
+│   ├── models.py
+│   └── schemas.py
+├── docker-compose.yml
+├── Dockerfile
+├── README.md
+└── requirements.txt
+```
