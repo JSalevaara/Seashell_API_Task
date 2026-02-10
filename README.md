@@ -69,15 +69,17 @@ _Make sure the .env file contains DATABASE_URL which points to the local Postgre
 ### 5. Start the API.
 
 ```bash
-uvicorn app.main:app
+uvicorn app.main:app --reload
 ```
+
+_The --reload flag is useful for development as it restarts the server whenever you save a file._
 
 ## API Documentation
 
 FastAPI automatically generates interactive documentation. Once the server is running, you can explore and test the endpoints directly:
 
-**Swagger UI:** `http://localhost:8000/docs` \
-**ReDoc:** `http://localhost:8000/redoc`
+**Swagger UI:** [http://localhost:8000/docs](http://localhost:8000/docs) \
+**ReDoc:** [http://localhost:8000/redoc](http://localhost:8000/redoc)
 
 #### Endpoints
 
