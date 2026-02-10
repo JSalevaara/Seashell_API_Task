@@ -18,11 +18,11 @@ services:
             - POSTGRES_PASSWORD=${DB_PASSWORD:-password}
             - POSTGRES_DB=${DB_NAME:-seashell_db}
         ports:
-            - "5432:5432"
+            - "${DB_PORT:-5432}:5432"
     api:
         build: .
         ports:
-            - "8000:8000"
+            - "${API_PORT:-8000}:8000"
         volumes:
             - .:/app
         environment:

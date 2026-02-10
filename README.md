@@ -27,7 +27,8 @@ cd Seashell_API_Task
 docker-compose up --build
 ```
 
-_The API will be available at `localhost:8000` and the database will persist data using Docker volumes._
+_The API will be available at `localhost:8000` by default and the database will persist data using Docker volumes._
+_You can change the port of the API and the Database services by including `DB_PORT` and `API_PORT` in a .env file._
 
 ## Installation and Setup locally
 
